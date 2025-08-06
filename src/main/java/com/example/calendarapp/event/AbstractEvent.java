@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.time.ZonedDateTime;
 
 public abstract class AbstractEvent implements Event {
+
     private final int id;
     private String title;
 
@@ -16,14 +17,7 @@ public abstract class AbstractEvent implements Event {
 
     private boolean deletedYn;
 
-    public AbstractEvent(int id,
-                            String title,
-                            ZonedDateTime startAt,
-                            ZonedDateTime endAt,
-                            Duration duration,
-                            ZonedDateTime createdAt,
-                            ZonedDateTime modifiedAt,
-                            boolean deletedYn) {
+    public AbstractEvent(int id, String title, ZonedDateTime startAt, ZonedDateTime endAt) {
         this.id = id;
         this.title = title;
         this.startAt = startAt;
@@ -36,5 +30,9 @@ public abstract class AbstractEvent implements Event {
         this.modifiedAt = now;
 
         this.deletedYn = false;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }
