@@ -1,10 +1,7 @@
 package com.example.calendarapp;
 
 import ch.qos.logback.classic.joran.sanity.IfNestedWithinSecondPhaseElementSC;
-import com.example.calendarapp.event.AbstractEvent;
-import com.example.calendarapp.event.Event;
-import com.example.calendarapp.event.Meeting;
-import com.example.calendarapp.event.Todo;
+import com.example.calendarapp.event.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -42,6 +39,21 @@ public class CalendarAppApplication {
         list.add(todo1);
 
         list.forEach(Event::print);
+
+        // 미팅만 필터링하기
+        /* 기존에 내가 구현한 것
+        List<Meeting> meetingList = list.stream()
+                .filter(item -> item instanceof Meeting)
+                .map(item -> (Meeting) item)
+                .toList();
+        * */
+
+        // 개선
+        // enum을 사용하여 각각의 Event 클래스에서 메서드로 처리
+        // 만약 미팅이 아닌 투두 같은것만 보여줘야 한다면 support의 인자만 변경해주면 되는 방식 -> 확장성 증가
+        list.stream()
+                .filter(each -> each.support(EventType.MEETING))
+                .forEach(Event::print);
     }
 
 }
