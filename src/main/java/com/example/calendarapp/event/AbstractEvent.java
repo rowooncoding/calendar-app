@@ -1,10 +1,13 @@
 package com.example.calendarapp.event;
 
 import com.example.calendarapp.exception.InvalidEventException;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
 
+@Getter @Setter
 public abstract class AbstractEvent implements Event {
 
     private final int id;
