@@ -2,9 +2,12 @@ package com.example.calendarapp;
 
 import ch.qos.logback.classic.joran.sanity.IfNestedWithinSecondPhaseElementSC;
 import com.example.calendarapp.event.*;
+import com.example.calendarapp.reader.EventCsvReader;
+import com.opencsv.exceptions.CsvException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,34 +16,18 @@ import java.util.List;
 @SpringBootApplication
 public class CalendarAppApplication {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, CsvException {
         // SpringApplication.run(CalendarAppApplication.class, args);
 
-        // 미팅1번 만들기
-        //List<AbstractEvent> list = new ArrayList<>();
         Schedule schedule = new Schedule();
 
-        HashSet<String> participants = new HashSet<>();
-        participants.add("danny.kim");
+        EventCsvReader csvReader = new EventCsvReader();
+        String meetingCsvPath = "/data/meeting.csv";
 
-        Meeting meeting1 = new Meeting(
-                1, "meeting1",
-                ZonedDateTime.now(), ZonedDateTime.now().plusHours(1),
-                participants, "meetingRoomA", "스터디"
-        );
+        List<Meeting> meetings = csvReader.readMeetings(meetingCsvPath);
+        meetings.forEach(schedule::add);
 
-        schedule.add(meeting1);
-
-        // 투두 1번 만들기
-        Todo todo1 = new Todo(
-                2, "todo1",
-                ZonedDateTime.now(), ZonedDateTime.now().plusHours(2),
-                "할 일 적기"
-        );
-
-        schedule.add(todo1);
-
-        schedule.printBy(EventType.TO_DO);
+        schedule.printAll();
     }
 
 }
