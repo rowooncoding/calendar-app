@@ -19,6 +19,7 @@ public class CalendarAppApplication {
     public static void main(String[] args) {
         // SpringApplication.run(CalendarAppApplication.class, args);
 
+        // 미팅1번 만들기
         List<AbstractEvent> list = new ArrayList<>();
         HashSet<String> participants = new HashSet<>();
         participants.add("danny.kim");
@@ -31,6 +32,7 @@ public class CalendarAppApplication {
 
         list.add(meeting1);
 
+        // 투두 1번 만들기
         Todo todo1 = new Todo(
                 2, "todo1",
                 ZonedDateTime.now(), ZonedDateTime.now().plusHours(2),
