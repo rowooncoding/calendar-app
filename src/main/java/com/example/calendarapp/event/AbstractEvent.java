@@ -1,5 +1,6 @@
 package com.example.calendarapp.event;
 
+import com.example.calendarapp.event.update.AbstractAuditableEvent;
 import com.example.calendarapp.exception.InvalidEventException;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,7 +44,23 @@ public abstract class AbstractEvent implements Event {
         this.deletedYn = false;
     }
 
-    public String getTitle() {
-        return title;
+    public void validateAndUpdate(AbstractAuditableEvent update) {
+        if (deletedYn) {
+            throw new RuntimeException("이미 삭제된 이벤트는 수정할 수 없습니다");
+        }
+
+        defaultUpdate(update);
+
+        update(update);
     }
+
+    private void defaultUpdate(AbstractAuditableEvent update) {
+        this.title = update.getTitle();
+        this.startAt = update.getStartAt();
+        this.endAt = update.getEndAt();
+        this.duration = Duration.between(this.startAt, this.endAt);
+        this.modifiedAt = ZonedDateTime.now();
+    }
+
+    protected abstract void update(AbstractAuditableEvent update);
 }

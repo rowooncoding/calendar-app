@@ -27,7 +27,8 @@ public class CalendarAppApplication {
         List<Meeting> meetings = csvReader.readMeetings(meetingCsvPath);
         meetings.forEach(schedule::add);
 
+
+
         schedule.printAll();
     }
-
 }
